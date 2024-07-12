@@ -13,8 +13,26 @@ function printTasks() {
         const span = document.createElement("span");
         const edit = document.createElement("i");
         const del = document.createElement("i");
+        const checkbox = document.createElement("input");
 
-        span.innerHTML = obj.task;
+        let taskText = obj.task;
+        if (taskText.length > 30) {
+            taskText = taskText.slice(0, 30) + "<br>" + taskText.slice(30);
+        }
+        span.innerHTML = taskText;
+        checkbox.setAttribute("type", "checkbox");
+        checkbox.addEventListener("change", (e) => {
+            if (e.target.checked) {
+                li.classList.add("checked");
+                li.style.opacity = "0.5";
+                li.style.pointerEvents = "none";
+            } else {
+                li.classList.remove("checked");
+                li.style.opacity = "1";
+                li.style.pointerEvents = "auto";
+            }
+        });
+
         edit.classList.add("fa-solid", "fa-pencil");
         del.classList.add("fa-solid", "fa-trash");
 
@@ -31,7 +49,7 @@ function printTasks() {
             input.focus();
         });
 
-        li.append(span, edit, del);
+        li.append(checkbox, span, edit, del);
         ul.append(li);
     });
 }
@@ -62,7 +80,5 @@ btn.addEventListener("click", (e) => {
         input.focus();
 
         printTasks();
-    }
-
-
+    }    
 });
